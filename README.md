@@ -1,4 +1,4 @@
-# agreeto
+# Agreeto Basic Monorepo
 
 The main monorepo for everything AgreeTo.
 
