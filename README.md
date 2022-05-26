@@ -1,4 +1,4 @@
-# agreeto
+# Agreeto Basic Monorepo
 
 The main monorepo for everything AgreeTo.
 
@@ -8,12 +8,11 @@ This monorepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `web`: a [Next.js](https://nextjs.org) app
+- `web-remix`: a [Remix](https://remix.run/) app
+- `browser`: a browser extension for Chrome & Firefox
+- `app`: a (currently empty) React app that will contain the calendar client
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`; will contain also prettier & tailwind configurations soon)
-- `database`: [Prisma](https://prisma.io/) ORM wrapper to manage & access your database
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
 
@@ -22,51 +21,61 @@ This monorepo uses the additional tools:
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
-- [Prisma](https://prisma.io/) for database ORM
-- [Docker Compose](https://docs.docker.com/compose/) for local database
 
-## Getting started
+## Context
+This monorepo is barebones only:
+The `browser` doesn't really have any features. It simply handles the injection on gmail and listens to icon clicks on any page to render the `app` package's react app (a Hello World example).
 
-### Database
+We want to support both browser extension & outlook and want to sync the user data between the apps. 
 
-We use [Prisma](https://prisma.io/) to manage & access our database. As such you will need a database for this project, either locally or hosted in the cloud.
+We therefore need a standalone web server (the `web-remix` app in this case) to fetch calendar events.
 
-To make this process easier, we offer a [`docker-compose.yml`](https://docs.docker.com/compose/) file to deploy a Postgres server locally with a new database named `agreeto` and a user & password.
+The web-remix app currently exposes a GET API endpoint that initiates the authentication flow:
+`<domain>/auth/google`
+The callback url will contain the code in the URL as a parameter.
 
-To set up the database, you will need to copy the `.env.example` file to `.env` in order for Prisma to have a `DATABASE_URL` environment variable to access.
 
-```bash
-cp packages/database/.env.example packages/database/.env.example/.env
-```
 
-Now, you're ready to set up the database. We've included a script for you that sets up the database.
+## Your task
+> **Note**
+> Upon completion of this task, you'll get $200 transferred.
 
-```bash
-npm run db:setup
-```
+Your task is to add the outlook package and solve for the authentication strategy between the players.
+- Add an outlook package to our monorepo that builds the package via an npm script
+  <img width="410" alt="image" src="https://user-images.githubusercontent.com/18185649/170488699-8d3de54b-042f-48b3-8474-6476371a1638.png">
+- Add microsoft oauth authentication to the web-remix app
+  - *Note:* You can take inspiration from the google flow that you find, however ideally you find a way to persist the access token on the server & issue an JWT
+- Store the returned token in locaStorage of the outlook api
+- If the user is now authenticated, display a list of 10 events in the add-in instead of the sign in page
 
-If you prefer do to set it up manually, you have to execute the following steps:
 
-1. Deploys a postgres database via docker-compose (command `npm run db:up`)
-2. Run migrations via prisma migrate deploy (command `npm run db:migrate:deploy`)
-3. Seed the database via a seed.ts script contained in the database package (command `npm run db:seed`)
+Bonus:
+In case you want to get fancy, you can pick up any of the following tasks (50$ each):
 
-You can also execute the commands manually.
+- Find a way to deploy the outlook package via CLI/GitHub Action to the [Microsoft AppSource]([url](https://appsource.microsoft.com/de-de/home)) Store
+- Add a database to the `web-remix` package to persist the Identity Provider's credentials & create a user
+- Add a basic FullCalendar client view to the `app` package and render this in add-in whenever the user is authenticated (your choice if outlook or react)
 
-For further more information on migrations & how to use Prisma Migrate, we recommend to read through the [Prisma Documentation](https://www.prisma.io/docs/concepts/components/prisma-migrate).
+## Getting started with this repo
+1. Set up Google OAuth Platform
+  JavaScript origins: `http://localhost:3000`
+  Authorized redirect URIs: `http://localhost:3000/auth/google/callback`
+2. Copy the `.env.example` to `.env` & set the appropriate values from an account you've create on Google Cloud Platform
+3. Start the web app. Start the remix app `npm run dev:web-remix` to accept api calls.
+4. Visit `http://localhost:3000/api/auth/google?runtime=browser` and go through the oauth flow to see the token displayed in the URL
 
-### Start the apps
+## Troubleshooting
+For any questions, you can simply write on our Slack channel. We expect there to be errors and would love to bounce off ideas while you work on this.
 
-**Load the extension**. `npm run dev:chromium` or `npm run dev:firefox` for your preferred browser
+## Tips
 
-- **AgreeTo for any website.** Visit any website & click on the AgreeTo extension icon to see the app.
-- **AgreeTo for Gmail**. After logging in to gmail with your credentials, visit [Gmail's compose window](https://mail.google.com/mail/u/0/?compose=new) to see AgreeTo for Gmail.
+- You can change any part of the application — if you are more comfortable or productive with something else.
+- You can change the project structure as you see fit.
+- You can add any NPM package you need to implement new features or improve the existing code.
+- We don't expect any particular approach other than outlined; infact, where eager to see with which solutions you come up
 
-## Local development workflow
+## How to submit
+- Use a separate repo for the solution. Don't fork it, use this guide for [mirroring repos]([url](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository#mirroring-a-repository)).
+- Create a short Loom recording of UI and code walk-through.
+- Let us know on Slack once you've implemented everything
 
-1. **Start the react app.** `npm run dev:app` runs the react-app in development mode (not the extension)
-2. **Make changes.** You can observe your changes on `localhost:3000` almost instantly thanks to vite
-3. **Load the extension.** After you've made your changes, load the extension right from the shell
-
-- `npm run dev:chromium` → Opens a chromium browser with your extension loaded
-- `npm run dev:firefox` → Opens a firefox browser with your extension loaded
