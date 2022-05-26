@@ -1,0 +1,49 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "baseBranch": "origin/main",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "lint:check": {
+      "outputs": []
+    },
+    "lint:fix": {
+      "cache": false
+    },
+    "style:check": {
+      "outputs": []
+    },
+    "types:check": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false
+    },
+    "dev:chromium": {
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    "dev:firefox": {
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    "package:chromium": {
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    "package:firefox": {
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    "sign:firefox": {
+      "cache": false,
+      "dependsOn": ["build"]
+    }
+  }
+}

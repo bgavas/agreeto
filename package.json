@@ -1,0 +1,39 @@
+{
+  "name": "agreeto",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "build:app": "turbo run build --filter=...app",
+    "build:web-remix": "turbo run build --filter=...web-remix",
+    "build:browser": "turbo run build --filter=...browser",
+    "check:ci": "turbo run style:check lint:check types:check",
+    "lint:check": "turbo run lint:check",
+    "lint:fix": "turbo run lint:fix",
+    "style:check": "prettier --check .",
+    "types:check": "turbo run types:check",
+    "clean": "rimraf ./packaged/ && turbo run clean",
+    "dev:app": "turbo run dev --filter=...@agreeto/app",
+    "dev:web-remix": "turbo run dev --filter=...web-remix",
+    "dev:browser:chromium": "turbo run dev:chromium --filter=...browser",
+    "dev:browser:firefox": "turbo run dev:firefox --filter=...browser",
+    "dev:chromium": "run-p dev:app dev:browser:chromium",
+    "dev:firefox": "run-p dev:app dev:browser:firefox",
+    "package:chromium": "turbo run package:chromium --filter=...browser",
+    "package:firefox": "turbo run package:firefox --filter=...browser",
+    "sign:firefox": "turbo run sign:firefox --filter=...browser",
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.1",
+    "rimraf": "^3.0.2",
+    "turbo": "^1.1.10"
+  },
+  "volta": {
+    "node": "16.15.0",
+    "npm": "8.10.0"
+  },
+  "packageManager": "npm@8.10.0"
+}

@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Dependencies
+node_modules
+
+# Turborepo
+.turbo
+
+# web-ext
+packaged
+
+# Builds
+dist
+build
+
+# tsconfig
+tsconfig.tsbuildinfo
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+
+# NextJS
+.next
+out
+.cache

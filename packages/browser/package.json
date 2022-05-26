@@ -1,0 +1,48 @@
+{
+  "name": "@agreeto/browser",
+  "scripts": {
+    "build": "run-p build:*",
+    "build:public": "cpy . ../dist/ --cwd=./public/",
+    "build:src": "run-p build:src:*",
+    "build:src:background": "esbuild ./src/background.ts --outfile=./dist/background.js --bundle",
+    "build:src:content": "esbuild ./src/content.tsx --outfile=./dist/content.js --bundle --inject:./react-shim.js",
+    "lint:check": "eslint . --ignore-path ../../.eslintignore",
+    "style:check": "prettier --check . --ignore-path ../../.prettierignore",
+    "types:check": "tsc",
+    "clean": "rimraf ./dist/",
+    "dev": "run-p dev:public dev:src",
+    "dev:public": "nodemon --watch ./public/ --ext '*'  -x \"npm run build:public\"",
+    "dev:src": "nodemon --watch ./src/ --watch ../app/dist --ext '*' -x \"npm run build:src\"",
+    "dev:chromium": "npm run build && concurrently \"npx web-ext run --source-dir ./dist/ --target=chromium\" \"npm run dev:src\"",
+    "dev:firefox": "npm run build && concurrently \"npx web-ext run --source-dir ./dist/ --target=firefox-desktop\" \"npm run dev:src\"",
+    "package:chromium": "npm run build && web-ext build --source-dir ./dist --artifacts-dir ../../packaged --filename chromium.zip --overwrite-dest",
+    "package:firefox": "npm run build && web-ext build --source-dir ./dist --artifacts-dir ../../packaged --filename firefox.xpi --overwrite-dest",
+    "sign:firefox": "npm run build && web-ext sign --source-dir ./dist --artifacts-dir ../../packaged && cd ../../packaged && rename *.xpi firefox.xpi"
+  },
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "devDependencies": {
+    "@agreeto/app": "*",
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.3",
+    "@types/webextension-polyfill": "^0.8.3",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "concurrently": "^7.1.0",
+    "cpy-cli": "^4.1.0",
+    "eslint": "^8.14.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "nodemon": "^2.0.16",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
+    "rename-cli": "^6.2.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.4",
+    "web-ext": "^6.8.0",
+    "webext-bridge": "^5.0.4",
+    "webextension-polyfill": "^0.9.0"
+  }
+}

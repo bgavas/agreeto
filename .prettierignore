@@ -1,0 +1,22 @@
+# NPM
+/node_modules
+
+# Turborepo
+.turbo
+
+# esbuild
+dist
+
+# web-ext
+packaged
+
+# nextjs
+.next
+
+# Remix
+/apps/web-remix/.cache/
+/apps/web-remix/build/
+/apps/web-remix/public/build/
+
+
+# TODO: only have root package run Prettier, and move all ignore cases here.
