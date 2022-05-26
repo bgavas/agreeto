@@ -67,6 +67,15 @@ In case you want to get fancy, you can pick up any of the following tasks (50$ e
 ## Troubleshooting
 For any questions, you can simply write on our Slack channel. We expect there to be errors and would love to bounce off ideas while you work on this.
 
-## Notes
-- you can swap out any tech in here with whatever you prefer
-- we don't expect any particular approach other than outlined; infact, where eager to see with which solutions you come up
+## Tips
+
+- You can change any part of the application — if you are more comfortable or productive with something else.
+- You can change the project structure as you see fit.
+- You can add any NPM package you need to implement new features or improve the existing code.
+- We don't expect any particular approach other than outlined; infact, where eager to see with which solutions you come up
+
+## How to submit
+- Use a separate repo for the solution. Don't fork it, use this guide for [mirroring repos]([url](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository#mirroring-a-repository)).
+- Create a short Loom recording of UI and code walk-through.
+- Let us know on Slack once you've implemented everything
+
