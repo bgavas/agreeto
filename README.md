@@ -22,21 +22,51 @@ This monorepo uses the additional tools:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
-## Getting started
+## Context
+This monorepo is barebones only:
+The `browser` doesn't really have any features. It simply handles the injection on gmail and listens to icon clicks on any page to render the `app` package's react app (a Hello World example).
+
+We want to support both browser extension & outlook and want to sync the user data between the apps. 
+
+We therefore need a standalone web server (the `web-remix` app in this case) to fetch calendar events.
+
+The web-remix app currently exposes a GET API endpoint that initiates the authentication flow:
+`<domain>/auth/google`
+The callback url will contain the code in the URL as a parameter.
 
 
-### Start the apps
 
-**Load the extension**. `npm run dev:chromium` or `npm run dev:firefox` for your preferred browser
+## Your task
+> **Note**
+> Upon completion of this task, you'll get $200 transferred.
 
-- **AgreeTo for any website.** Visit any website & click on the AgreeTo extension icon to see the app.
-- **AgreeTo for Gmail**. After logging in to gmail with your credentials, visit [Gmail's compose window](https://mail.google.com/mail/u/0/?compose=new) to see AgreeTo for Gmail.
+Your task is to add the outlook package and solve for the authentication strategy between the players.
+- Add an outlook package to our monorepo that builds the package via an npm script
+  <img width="410" alt="image" src="https://user-images.githubusercontent.com/18185649/170488699-8d3de54b-042f-48b3-8474-6476371a1638.png">
+- Add microsoft oauth authentication to the web-remix app
+  - *Note:* You can take inspiration from the google flow that you find, however ideally you find a way to persist the access token on the server & issue an JWT
+- Store the returned token in locaStorage of the outlook api
+- If the user is now authenticated, display a list of 10 events in the add-in instead of the sign in page
 
-## Local development workflow
 
-1. **Start the react app.** `npm run dev:app` runs the react-app in development mode (not the extension)
-2. **Make changes.** You can observe your changes on `localhost:3000` almost instantly thanks to vite
-3. **Load the extension.** After you've made your changes, load the extension right from the shell
+Bonus:
+In case you want to get fancy, you can pick up any of the following tasks (50$ each):
 
-- `npm run dev:chromium` → Opens a chromium browser with your extension loaded
-- `npm run dev:firefox` → Opens a firefox browser with your extension loaded
+- Find a way to deploy the outlook package via CLI/GitHub Action to the [Microsoft AppSource]([url](https://appsource.microsoft.com/de-de/home)) Store
+- Add a database to the `web-remix` package to persist the Identity Provider's credentials & create a user
+- Add a basic FullCalendar client view to the `app` package and render this in add-in whenever the user is authenticated (your choice if outlook or react)
+
+## Getting started with this repo
+1. Set up Google OAuth Platform
+  JavaScript origins: `http://localhost:3000`
+  Authorized redirect URIs: `http://localhost:3000/auth/google/callback`
+2. Copy the `.env.example` to `.env` & set the appropriate values from an account you've create on Google Cloud Platform
+3. Start the web app. Start the remix app `npm run dev:web-remix` to accept api calls.
+4. Visit `http://localhost:3000/api/auth/google?runtime=browser` and go through the oauth flow to see the token displayed in the URL
+
+## Troubleshooting
+For any questions, you can simply write on our Slack channel. We expect there to be errors and would love to bounce off ideas while you work on this.
+
+## Notes
+- you can swap out any tech in here with whatever you prefer
+- we don't expect any particular approach other than outlined; infact, where eager to see with which solutions you come up
