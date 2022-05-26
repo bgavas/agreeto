@@ -23,7 +23,7 @@
     "dev:firefox": "run-p dev:app dev:browser:firefox",
     "package:chromium": "turbo run package:chromium --filter=...browser",
     "package:firefox": "turbo run package:firefox --filter=...browser",
-    "sign:firefox": "turbo run sign:firefox --filter=...browser",
+    "sign:firefox": "turbo run sign:firefox --filter=...browser"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
