@@ -55,6 +55,7 @@ In case you want to get fancy, you can pick up any of the following tasks (50$ e
 - Find a way to deploy the outlook package via CLI/GitHub Action to the [Microsoft AppSource](https://appsource.microsoft.com/de-de/home) Store
 - Add a database to the `web-remix` package to persist the Identity Provider's credentials & create a user
 - Add a basic FullCalendar client view to the `app` package and render this in add-in whenever the user is authenticated (your choice if `outlook` or `browser`)
+- ANY other cool idea? We're excited to see it. :)
 
 ## Getting started with this repo
 1. Set up Google OAuth Platform
