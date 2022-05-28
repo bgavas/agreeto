@@ -25,7 +25,6 @@ export default function App(): ReactElement {
       <body>
         <header>
           <h1>AgreeTo</h1>
-          <p>TODO: frontend</p>
         </header>
         <Outlet />
         <ScrollRestoration />
