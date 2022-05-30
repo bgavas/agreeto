@@ -1,11 +1,10 @@
 import type { LoaderArguments } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { google } from "googleapis";
 import type { ReactElement } from "react";
 
 import { getRequiredEnvironmentVariable } from "~/utils/getRequiredEnvironmentVariable.server";
-import { REDIRECT_URI } from "~/utils/google.server";
+import { REDIRECT_URI, google } from "~/utils/google.server";
 
 export async function loader({ request }: LoaderArguments): Promise<Response> {
   const parameters = new URL(request.url).searchParams;

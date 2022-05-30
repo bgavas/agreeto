@@ -1,7 +1,9 @@
 import { createRequestHandler } from "@remix-run/express";
 import type { LoadContext } from "@remix-run/node";
 import compression from "compression";
+import * as devCerts from 'office-addin-dev-certs';
 import express from "express";
+import { createServer } from "https";
 import morgan from "morgan";
 import path from "path";
 
@@ -45,9 +47,14 @@ app.all(
 );
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Express server listening on port ${port}`);
-});
+devCerts.getHttpsServerOptions()
+  .then((httpsOptions) => {
+    createServer(httpsOptions, app).listen(port, () => {
+      console.log(`Express server listening on port ${port}`);
+    });
+  })
+  .catch((e) => console.error('Could not get development certificates', e));
+
 
 function purgeRequireCache(): void {
   // purge require cache on requests for "server side HMR" this won't let
