@@ -27,3 +27,6 @@ tsconfig.tsbuildinfo
 .next
 out
 .cache
+
+# Certificates
+certs

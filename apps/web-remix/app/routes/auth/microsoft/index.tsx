@@ -13,12 +13,6 @@ export async function loader({ request }: LoaderArguments): Promise<Response> {
   if (token) {
     return redirect("/api/microsoft/events");
   }
-
-  const runtime = new URL(request.url).searchParams.get("runtime");
-
-  if (!runtime || !["browser"].includes(runtime)) {
-    return redirect("/");
-  }
   
   // Get redirect URL
   const url = await getRedirectUrl();
